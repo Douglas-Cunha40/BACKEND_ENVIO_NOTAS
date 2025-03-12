@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+// Adicione a configuração CORS aqui
+app.use(cors()); // Permite requisições de qualquer origem
+
 // Configuração para lidar com o envio de formulários e arquivos
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
