@@ -59,9 +59,9 @@ app.post('/enviar-nota', upload.single('nota_fiscal'), (req, res) => {
       console.error('Erro ao enviar o e-mail:', error);
       return res.status(500).json({ message: 'Erro ao enviar o e-mail: ' + error.message });
     }
-    
-    console.log('E-mail enviado:', info);
-    return res.status(200).json({ message: 'E-mail enviado com sucesso' }); // Retorne com sucesso
+  
+    console.log('E-mail enviado com sucesso:', info);
+    return res.status(200).json({ message: 'E-mail enviado com sucesso', success: true });
   });
 });
 
