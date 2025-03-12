@@ -23,20 +23,19 @@ const transporter = nodemailer.createTransport({
 
 // Rota POST para enviar o e-mail com os dados do formulário
 app.post('/enviar-nota', upload.single('nota_fiscal'), (req, res) => {
-  console.log('Dados recebidos:', req.body); // Exibir os dados do formulário para depuração
-  console.log('Arquivo enviado:', req.file);  // Exibir informações sobre o arquivo recebido
+  console.log('Dados recebidos:', req.body); // Exibir os dados do formulário
+  console.log('Arquivo enviado:', req.file); // Exibir informações sobre o arquivo recebido
   
   const { motorista, placa, data_hora, km, valor_nota } = req.body;
   const nota_fiscal = req.file;
 
-  // Verificar se o arquivo foi anexado
   if (!nota_fiscal) {
     return res.status(400).send('Nenhum arquivo anexado');
   }
 
-  // Configuração do e-mail com os dados do formulário e o anexo
+  // Configuração do e-mail
   const mailOptions = {
-    from: 'antonio.almeida@airsupplybr.com',
+    from: process.env.EMAIL_USER,
     to: 'antonio.almeida@airsupplybr.com',
     subject: 'Nova Nota Fiscal Recebida',
     text: `
@@ -48,8 +47,8 @@ app.post('/enviar-nota', upload.single('nota_fiscal'), (req, res) => {
     `,
     attachments: [
       {
-        filename: nota_fiscal.originalname, // Nome original do arquivo
-        path: nota_fiscal.path, // Caminho onde o arquivo foi armazenado temporariamente
+        filename: nota_fiscal.originalname,
+        path: nota_fiscal.path,
       },
     ],
   };
@@ -60,7 +59,7 @@ app.post('/enviar-nota', upload.single('nota_fiscal'), (req, res) => {
       console.error('Erro ao enviar o e-mail:', error);
       return res.status(500).send(`Erro ao enviar o e-mail: ${error.message}`);
     }
-    console.log('E-mail enviado:', info);
+    console.log('E-mail enviado:', info); // Log quando o e-mail for enviado com sucesso
     return res.status(200).send('E-mail enviado com sucesso');
   });
 });
