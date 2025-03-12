@@ -16,8 +16,8 @@ const upload = multer({ dest: 'uploads/' }); // Pasta para armazenar os arquivos
 const transporter = nodemailer.createTransport({
   service: 'Outlook',
   auth: {
-    user: 'antonio.almeida@airsupplybr.com',
-    pass: 'Pon65294',
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
